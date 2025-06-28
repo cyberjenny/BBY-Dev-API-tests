@@ -1,0 +1,447 @@
+{
+	"info": {
+		"_postman_id": "2de08d5f-3e56-4824-8960-5fdd386a56e9",
+		"name": "BBY DEV API",
+		"description": "## BBY DEV API Collection 👶✨\n\nThis collection contains beginner-friendly API requests created for learning and testing purposes.\n\n### Included Endpoints:\n\n- `GET` List of users\n    \n- `POST` Create a new user\n    \n- `PUT` Update a user\n    \n- `DELETE` Remove a user\n    \n- `POST` Login (to get a token)\n    \n- `GET` Users with Bearer Token Auth\n    \n- PATCH PATCH Update User (Partial Update)\n    \n- HEAD HEAD Request – Check Headers Only\n    \n- OPTIONS OPTIONS Check – Allowed Methods\n    \n\n### Why This Collection?\n\n- Practice real-world API requests\n    \n- Understand how to use Postman scripts and tests\n    \n- Learn token-based authentication\n    \n- Run and validate requests using the Collection Runner\n    \n\nPerfect for junior developers or QA testers learning API testing from scratch! 🧠💥",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "45889774"
+	},
+	"item": [
+		{
+			"name": "GET List of Users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response has user data\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.length).to.be.above(0);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://reqres.in/api/users?page=2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				},
+				"description": "Fetches a paginated list of users from reqres.in.  \nUseful for checking that the GET method returns user data and status code 200."
+			},
+			"response": []
+		},
+		{
+			"name": "POST Create User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Response has name and job\", function () {",
+							"    let jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql(\"Baby Dev\");",
+							"    pm.expect(jsonData.job).to.eql(\"Tester\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Baby Dev\",\n  \"job\": \"Tester\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				},
+				"description": "Sends user data (name and job) to create a new user.  \nVerifies the POST method returns status code 201 and user info."
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Update User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Updated job title is correct\", function () {",
+							"    let jsonData = pm.response.json();",
+							"    pm.expect(jsonData.job).to.eql(\"Boss Baby\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Baby Dev\",\n  \"job\": \"Boss Baby\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users/2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"2"
+					]
+				},
+				"description": "Updates an existing user’s details (e.g., job title) using the PUT method.  \nChecks if status code is 200 and data updates correctly."
+			},
+			"response": []
+		},
+		{
+			"name": "Remove a user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});",
+							"",
+							"pm.test(\"Response body is empty\", function () {",
+							"    pm.expect(pm.response.text()).to.eql(\"\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://reqres.in/api/users/2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"2"
+					]
+				},
+				"description": "Deletes a user by ID using the DELETE method.  \nExpects a 204 No Content response to confirm deletion."
+			},
+			"response": []
+		},
+		{
+			"name": "POST Login – Get Auth Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonData = pm.response.json();",
+							"pm.environment.set(\"auth_token\", jsonData.token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"eve.holt@reqres.in\",\n  \"password\": \"cityslicka\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/login",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"login"
+					]
+				},
+				"description": "Authenticates a user by sending login credentials.  \nIf successful, returns an auth token to use in protected requests."
+			},
+			"response": []
+		},
+		{
+			"name": "GET Users – With Bearer Token",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{auth_token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://reqres.in/api/users?page=2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				},
+				"description": "Fetches users with token-based authentication.  \nChecks if the token is accepted and data is returned."
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH Update User (Partial Update)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Job title is updated\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.job).to.eql(\"DevOps Engineer\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"job\": \"DevOps Engineer\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users/2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"2"
+					]
+				},
+				"description": "Partially updates a user’s info using the PATCH method.  \nConfirms the status code is 200 and specific fields are updated."
+			},
+			"response": []
+		},
+		{
+			"name": "HEAD Request – Check Headers Only",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content-Type header is present\", function () {",
+							"    pm.expect(pm.response.headers.has(\"Content-Type\")).to.be.true;",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "HEAD",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://reqres.in/api/users?page=2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				},
+				"description": "Makes a HEAD request to fetch headers without the body.  \nUseful for checking response metadata like Content-Type."
+			},
+			"response": []
+		},
+		{
+			"name": "OPTIONS Check – Allowed Methods",
+			"request": {
+				"method": "OPTIONS",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://reqres.in/api/users",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				},
+				"description": "Sends an OPTIONS request to see which HTTP methods are supported on the endpoint."
+			},
+			"response": []
+		}
+	]
+}
